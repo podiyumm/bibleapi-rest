@@ -5,13 +5,15 @@ import { MongoClient } from 'mongodb';
 import expressWinston from 'express-winston';
 import routes from './routes';
 
-const host = `${process.env.MONGODB_REPLICA_NODE_1},${process.env.MONGODB_REPLICA_NODE_2},${process.env.MONGODB_REPLICA_NODE_3}`;
-const replicaSet = process.env.MONGODB_REPLICA_SET;
-const useSsl = process.env.MONGODB_SSL;
+const host = `${process.env.MONGODB_REPLICA_NODE_1}`;
+// const host = `${process.env.MONGODB_REPLICA_NODE_1},${process.env.MONGODB_REPLICA_NODE_2},${process.env.MONGODB_REPLICA_NODE_3}`;
+// const replicaSet = process.env.MONGODB_REPLICA_SET;
+// const useSsl = process.env.MONGODB_SSL;
 const db = process.env.MONGODB_DATABASE;
 const user = process.env.MONGODB_USERNAME;
 const pass = process.env.MONGODB_PASSWORD;
-const mongoDbUrl = `mongodb://${user}:${pass}@${host}/${db}?ssl=${useSsl}&replicaSet=${replicaSet}&authSource=admin`;
+// const mongoDbUrl = `mongodb://${user}:${pass}@${host}/${db}?ssl=${useSsl}&replicaSet=${replicaSet}&authSource=admin`;
+const mongoDbUrl = `mongodb://${user}:${pass}@${host}/${db}`;
 
 const app = express();
 
@@ -22,7 +24,7 @@ MongoClient.connect(mongoDbUrl, (error, mongoPool) => {
     return;
   }
 
-  app.mongoPool = mongoPool;
+  app.mongoPool = mongoPool.db(db);
 
   // Helmet helps securing Express.js apps by setting various HTTP headers
   // https://github.com/helmetjs/helmet
