@@ -10,7 +10,8 @@ module.exports = mongoPool => {
             book: row.book_id,
             chapter: row.chapter,
             verse: row.verse,
-            text: row.text
+            text: row.text,
+              tran: row.translation_id
           })));
     },
     getText(query) {
